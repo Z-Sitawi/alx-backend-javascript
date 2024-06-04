@@ -1,4 +1,4 @@
 #!/usr/bin/node
-export default function getListStudentIds(xlistStudents) {
-  return Array.isArray(xlistStudents) ? xlistStudents.map(({ id }) => id) : [];
+export default function getListStudentIds(objsArray) {
+  return (Array.isArray(objsArray)) ? objsArray.map((elelment) => elelment.id) : [];
 }
