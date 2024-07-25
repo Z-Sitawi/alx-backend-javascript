@@ -1,5 +1,4 @@
 #!/usr/bin/node
-// 0-calcul.test.js
 const assert = require('assert');
 const calculateNumber = require('./0-calcul.js');
 
@@ -9,11 +8,11 @@ describe('calculateNumber', () => {
     assert.strictEqual(calculateNumber(1.4, 2.7), 4);
   });
 
-  it('should return 6 when inputs are 2.5 and 3.5', () => {
+  it('should return 7 when inputs are 2.5 and 3.5', () => {
     assert.strictEqual(calculateNumber(2.5, 3.5), 7);
   });
 
-  it('should return 1 when inputs are -1.6 and 2.3', () => {
+  it('should return 0 when inputs are -1.6 and 2.3', () => {
     assert.strictEqual(calculateNumber(-1.6, 2.3), 0);
   });
 
@@ -29,7 +28,7 @@ describe('calculateNumber', () => {
     assert.strictEqual(calculateNumber(-1.5, -1.5), -2);
   });
 
-  it('should return 2 when inputs are 1.5 and 0.5', () => {
+  it('should return 3 when inputs are 1.5 and 0.5', () => {
     assert.strictEqual(calculateNumber(1.5, 0.5), 3);
   });
 
