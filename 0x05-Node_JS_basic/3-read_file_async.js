@@ -1,5 +1,5 @@
 #!/usr/bin/node
-const fs = require('fs').promises; // Use the Promise-based version of the fs module
+const fs = require('fs').promises;
 
 function countStudents(path) {
   return fs.readFile(path, 'utf8')
