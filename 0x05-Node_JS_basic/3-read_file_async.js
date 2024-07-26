@@ -1,41 +1,45 @@
 #!/usr/bin/node
-const fs = require('fs');
+const fs = require('fs').promises; // Use the Promise-based version of the fs module
 
 function countStudents(path) {
-  try {
-    const data = fs.readFile(path, 'utf8').trim();
+  return fs.readFile(path, 'utf8')
+    .then((content) => {
+      // Process the file content
+      try {
+        // Split the data into lines and filter out empty lines
+        const lines = content.split('\n').filter((line) => line.trim() !== '');
+        if (lines.length < 2) {
+          console.log('No data to process');
+          return; // Resolve implicitly with no data
+        }
 
-    // Split the data into lines and parse each line
-    const lines = data.split('\n');
-    lines.shift();
-    const students = [];
-    lines.forEach((line) => {
-      const row = line.split(',');
-      const student = {
-        firstname: row[0],
-        lastname: row[1],
-        age: row[2],
-        field: row[3],
-      };
-      students.push(student);
-    });
-    const allFields = students.map((student) => student.field);
-    const distinctFields = [...new Set(allFields)];
+        // Remove the header
+        lines.shift();
+        const students = lines.map((line) => {
+          const [firstname, lastname, age, field] = line.split(',');
+          return {
+            firstname, lastname, age, field,
+          };
+        });
 
-    console.log(`Number of students: ${students.length}`);
+        // Count distinct fields
+        const allFields = students.map((student) => student.field);
+        const distinctFields = [...new Set(allFields)];
 
-    distinctFields.forEach((ele) => {
-      const fStudents = students.filter((student) => student.field === ele);
-      let fSnames = '';
-      for (let i = 0; i < fStudents.length; i += 1) {
-        if (i < fStudents.length - 1) fSnames += `${fStudents[i].firstname}, `;
-        else fSnames += fStudents[i].firstname;
+        console.log(`Number of students: ${students.length}`);
+
+        distinctFields.forEach((field) => {
+          const fStudents = students.filter((student) => student.field === field);
+          const fSnames = fStudents.map((student) => student.firstname).join(', ');
+          console.log(`Number of students in ${field}: ${fStudents.length}. List: ${fSnames}`);
+        });
+      } catch (error) {
+        console.error('Cannot process the data');
       }
-      console.log(`Number of students in ${ele}: ${fStudents.length}. List: ${fSnames}`);
+    })
+    .catch(() => {
+      console.error('Cannot load the database');
     });
-  } catch (error) {
-    throw new Error('Cannot load the database');
-  }
 }
 
 module.exports = countStudents;
